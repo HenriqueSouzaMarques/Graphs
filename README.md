@@ -7,5 +7,8 @@ The knowledge was acquired from the SCC0216 - Computational Modeling with Graphs
 
 Covered topics so far:
 #### 1. Adjacency Matrix
-#### 2. BFS (Breadth First Search)
-#### 3. DFS (Depth First Search)
+#### 2. Directed Graphs
+#### 3. Non-Directed Graphs
+#### 4. Weighted Graphs
+#### 5. BFS (Breadth First Search)
+#### 6. DFS (Depth First Search)
