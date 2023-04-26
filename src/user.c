@@ -13,7 +13,7 @@ void clear()
     system("clear");
 }
 
-graph_t* userCreateGraph()
+graph_t* userCreateGraph(BOOL* isDirected)
 {   
     int numberOfVertex;
 
@@ -21,12 +21,19 @@ graph_t* userCreateGraph()
     scanf("%d", &numberOfVertex);
     printf("\n");
 
+    char directed;
+    printf("Is you graph directed? (Y/N): ");
+    scanf(" %c", &directed);
+
+    *isDirected = (directed == 'Y') ? TRUE : FALSE;
+
+    printf("\n");
     clear();
 
     return graphCreate(numberOfVertex);
 }
 
-void userGraphAddEdge(graph_t* graph)
+void userGraphAddEdge(graph_t* graph, BOOL isDirected)
 {
     int vertexA, vertexB, weight;
 
@@ -42,12 +49,12 @@ void userGraphAddEdge(graph_t* graph)
     scanf("%d", &weight);
     printf("\n");
 
-    graphAddEdge(graph, vertexA, vertexB, weight);
+    graphAddEdge(graph, vertexA, vertexB, weight, isDirected);
 
     clear();
 }
 
-void userGraphRemoveEdge(graph_t* graph)
+void userGraphRemoveEdge(graph_t* graph, BOOL isDirected)
 {
     int vertexA, vertexB;
 
@@ -59,17 +66,39 @@ void userGraphRemoveEdge(graph_t* graph)
     scanf("%d", &vertexB);
     printf("\n");  
 
-    graphRemoveEdge(graph, vertexA, vertexB);  
+    graphRemoveEdge(graph, vertexA, vertexB, isDirected);  
 
     clear();
 }
 
-void userGraphBFS(graph_t* graph)
+void userGraphBFS(graph_t* graph, BOOL isConected)
 {
     int numberOfConnectedComponents = graphBFS(graph);
 
+    if(isConected)
+    {
+        printf("There are %d strongly connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
+    }
+    else
+    {
+        printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
+    }
 
-    printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
+    clear();
+}
+
+void userGraphDFS(graph_t* graph, BOOL isConected)
+{
+    int numberOfConnectedComponents = graphDFS(graph);
+
+    if(isConected)
+    {
+        printf("There are %d strongly connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
+    }
+    else
+    {
+        printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
+    }
 
     clear();
 }

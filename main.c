@@ -10,17 +10,17 @@ void printMenu()
     printf("2. Add Edge \n");
     printf("3. Delete Edge \n");
     printf("4. BFS Search \n");
+    printf("5. DFS Search \n");
     printf("0. Exit Program \n\n\n");
 
-
     printf("Choose one of the options above: ");
-
 }
 
 
 int main()
 {
     int option;
+    BOOL isDirected;
 
     graph_t* graph = NULL;
 
@@ -28,23 +28,28 @@ int main()
     {
         printMenu();
         scanf("%d", &option);
+        printf("\n");
 
         switch (option)
         {
             case 1:
-                graph = userCreateGraph();
+                graph = userCreateGraph(&isDirected);
                 break;
             
             case 2:
-                userGraphAddEdge(graph);
+                userGraphAddEdge(graph, isDirected);
                 break;
 
             case 3:
-                userGraphRemoveEdge(graph);
+                userGraphRemoveEdge(graph, isDirected);
                 break;
 
             case 4:
-                userGraphBFS(graph);
+                userGraphBFS(graph, isDirected);
+                break;
+
+            case 5:
+                userGraphDFS(graph, isDirected);
                 break;
 
             case 0:
