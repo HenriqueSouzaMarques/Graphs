@@ -75,14 +75,7 @@ void userGraphBFS(graph_t* graph, BOOL isConected)
 {
     int numberOfConnectedComponents = graphBFS(graph);
 
-    if(isConected)
-    {
-        printf("There are %d strongly connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
-    }
-    else
-    {
-        printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
-    }
+    printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
 
     clear();
 }
@@ -91,14 +84,7 @@ void userGraphDFS(graph_t* graph, BOOL isConected)
 {
     int numberOfConnectedComponents = graphDFS(graph);
 
-    if(isConected)
-    {
-        printf("There are %d strongly connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
-    }
-    else
-    {
-        printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
-    }
+    printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
 
     clear();
 }
