@@ -15,6 +15,8 @@ void userGraphDFS(graph_t* graph);
 
 void userGraphFindEulerianCycle(graph_t* graph);
 
+void userGraphColouring(graph_t* graph);
+
 void userExitProgram(graph_t** graph);
 
 

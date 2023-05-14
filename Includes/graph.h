@@ -18,6 +18,8 @@ int graphDFS(graph_t* graph, BOOL print);
 BOOL graphNotEulerian(graph_t* graph);
 void graphEulerianCircuit(graph_t* graph, int startVertex);
 
+void graphColouring(graph_t* graph);
+
 BOOL getIsDirected(graph_t* graph);
 
 void graphDelete(graph_t** graph);

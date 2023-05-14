@@ -234,7 +234,7 @@ int vertexDegree(graph_t* graph, int vertex)
     {
         if(graph->adjacencyMatriz[vertex][i] != 0)
         {
-                vertexDegree++;
+            vertexDegree++;
         }
     } 
 
@@ -347,6 +347,119 @@ void graphEulerianCircuit(graph_t* graph, int startVertex)
     printf("\n");
 
     graphDelete(&copy);
+}
+
+void swap(int* numberA, int* numberB)
+{
+    int temp = *numberA;
+    *numberA = *numberB;
+    *numberB = temp;
+}
+
+void bubbleSort(int* vertex, int* degrees, int n)
+{
+    for(int i = 0; i < n - 1; ++i)
+    {
+        for(int j = 0; j < n - i - 1; ++j)
+        {
+            if(degrees[j] < degrees[j + 1])
+            {
+                swap(&degrees[j], &degrees[j + 1]);
+                swap(&vertex[j], &vertex[j + 1]);
+            }
+        }
+    }
+}
+
+
+int* orderVertex(graph_t* graph)
+{
+    int* vertex = (int*)malloc(graph->numberOfVertex * sizeof(int));
+    int* degrees = (int*)malloc(graph->numberOfVertex * sizeof(int));
+
+    for(int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        vertex[i] = i;
+
+        degrees[i] = vertexDegree(graph, i); 
+    }
+
+    bubbleSort(vertex, degrees, graph->numberOfVertex);
+
+    free(degrees);
+
+    return vertex;
+}
+
+BOOL graphNotColoredYet(int* colors, int numberOfVertex)
+{
+    for(int i = 0; i < numberOfVertex; ++i)
+    {
+        if(colors[i] == 0) return TRUE;
+    }
+
+    return FALSE;
+}
+
+BOOL adjacentsColored(graph_t* graph, int* vertexOrderedByDegree, int* colors, int actualVertex, int actualColor)
+{
+    for(int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        if(graph->adjacencyMatriz[vertexOrderedByDegree[actualVertex]][i] != 0)
+        {
+            if(colors[i] == actualColor) return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+int welshPowell(graph_t* graph, int* vertexOrderedByDegree, int* colors)
+{
+    int actualColor = 0;
+
+    while(graphNotColoredYet(colors, graph->numberOfVertex))
+    {
+        actualColor++;
+
+        for(int j = 0; j < graph->numberOfVertex; ++j)
+        {
+            if(colors[vertexOrderedByDegree[j]] != 0) continue;
+
+            if(!adjacentsColored(graph, vertexOrderedByDegree, colors, j, actualColor))
+            {
+                colors[vertexOrderedByDegree[j]] = actualColor;
+            }
+        }
+    }
+
+    return actualColor;
+}
+
+void printColors(int* colors, int numberOfDifferentColors, int n)
+{
+    printf("Chromatic number: %d\n\n", numberOfDifferentColors);
+
+    for(int i = 0; i < n; ++i)
+    {
+        printf("Vertex %d: color %d\n", i, colors[i]);
+    }
+
+    printf("\n");
+}
+
+void graphColouring(graph_t* graph)
+{
+    int* vertexOrderedByDegree = orderVertex(graph);
+
+    int* colors = (int*)calloc(graph->numberOfVertex, sizeof(int));
+
+    int numberOfDifferentColors = welshPowell(graph, vertexOrderedByDegree, colors);
+
+    printColors(colors, numberOfDifferentColors, graph->numberOfVertex);
+
+    free(colors);
+    free(vertexOrderedByDegree);
 }
 
 void graphDelete(graph_t** graph)

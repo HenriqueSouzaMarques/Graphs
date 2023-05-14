@@ -11,7 +11,8 @@ void printMenu()
     printf("3. Delete Edge \n");
     printf("4. BFS Search \n");
     printf("5. DFS Search \n");
-    printf("6. Eulerian Circuit \n");
+    printf("6. Eulerian Circuit (Fleury's Algorithm) \n");
+    printf("7. Graph Colouring (Welsh Powell's Algorithm) \n");
     printf("0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -56,6 +57,10 @@ int main()
                 userGraphFindEulerianCycle(graph);
                 break;
 
+            case 7:
+                userGraphColouring(graph);
+                break;
+                
             case 0:
                 userExitProgram(&graph);
                 break;

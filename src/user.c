@@ -109,6 +109,13 @@ void userGraphFindEulerianCycle(graph_t* graph)
     clear();
 }
 
+void userGraphColouring(graph_t* graph)
+{
+    graphColouring(graph);
+    
+    clear();
+}
+
 void userExitProgram(graph_t** graph)
 {
     graphDelete(graph);
