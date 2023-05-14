@@ -13,7 +13,7 @@ void clear()
     system("clear");
 }
 
-graph_t* userCreateGraph(BOOL* isDirected)
+graph_t* userCreateGraph()
 {   
     int numberOfVertex;
 
@@ -21,19 +21,19 @@ graph_t* userCreateGraph(BOOL* isDirected)
     scanf("%d", &numberOfVertex);
     printf("\n");
 
-    char directed;
+    BOOL isDirected;
     printf("Is you graph directed? (Y/N): ");
-    scanf(" %c", &directed);
+    scanf(" %c", &isDirected);
 
-    *isDirected = (directed == 'Y') ? TRUE : FALSE;
+    isDirected = (isDirected == 'Y') ? TRUE : FALSE;
 
     printf("\n");
     clear();
 
-    return graphCreate(numberOfVertex);
+    return graphCreate(numberOfVertex, isDirected);
 }
 
-void userGraphAddEdge(graph_t* graph, BOOL isDirected)
+void userGraphAddEdge(graph_t* graph)
 {
     int vertexA, vertexB, weight;
 
@@ -49,12 +49,12 @@ void userGraphAddEdge(graph_t* graph, BOOL isDirected)
     scanf("%d", &weight);
     printf("\n");
 
-    graphAddEdge(graph, vertexA, vertexB, weight, isDirected);
+    graphAddEdge(graph, vertexA, vertexB, weight);
 
     clear();
 }
 
-void userGraphRemoveEdge(graph_t* graph, BOOL isDirected)
+void userGraphRemoveEdge(graph_t* graph)
 {
     int vertexA, vertexB;
 
@@ -66,25 +66,45 @@ void userGraphRemoveEdge(graph_t* graph, BOOL isDirected)
     scanf("%d", &vertexB);
     printf("\n");  
 
-    graphRemoveEdge(graph, vertexA, vertexB, isDirected);  
+    graphRemoveEdge(graph, vertexA, vertexB);  
 
     clear();
 }
 
-void userGraphBFS(graph_t* graph, BOOL isConected)
+void userGraphBFS(graph_t* graph)
 {
-    int numberOfConnectedComponents = graphBFS(graph);
+    int numberOfConnectedComponents = graphBFS(graph, TRUE);
 
     printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
 
     clear();
 }
 
-void userGraphDFS(graph_t* graph, BOOL isConected)
+void userGraphDFS(graph_t* graph)
 {
-    int numberOfConnectedComponents = graphDFS(graph);
+    int numberOfConnectedComponents = graphDFS(graph, TRUE);
 
     printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
+
+    clear();
+}
+
+void userGraphFindEulerianCycle(graph_t* graph)
+{
+    if(getIsDirected(graph) || graphNotEulerian(graph))
+    {
+        printf("Your graph is not eulerian!\n");
+
+        return;
+    }
+
+    int startVertex;
+
+    printf("Insert the starting vertex: ");
+
+    scanf("%d", &startVertex);
+
+    graphEulerianCircuit(graph, startVertex);
 
     clear();
 }

@@ -11,6 +11,7 @@ void printMenu()
     printf("3. Delete Edge \n");
     printf("4. BFS Search \n");
     printf("5. DFS Search \n");
+    printf("6. Eulerian Circuit \n");
     printf("0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -20,7 +21,6 @@ void printMenu()
 int main()
 {
     int option;
-    BOOL isDirected;
 
     graph_t* graph = NULL;
 
@@ -33,23 +33,27 @@ int main()
         switch (option)
         {
             case 1:
-                graph = userCreateGraph(&isDirected);
+                graph = userCreateGraph();
                 break;
             
             case 2:
-                userGraphAddEdge(graph, isDirected);
+                userGraphAddEdge(graph);
                 break;
 
             case 3:
-                userGraphRemoveEdge(graph, isDirected);
+                userGraphRemoveEdge(graph);
                 break;
 
             case 4:
-                userGraphBFS(graph, isDirected);
+                userGraphBFS(graph);
                 break;
 
             case 5:
-                userGraphDFS(graph, isDirected);
+                userGraphDFS(graph);
+                break;
+
+            case 6:
+                userGraphFindEulerianCycle(graph);
                 break;
 
             case 0:

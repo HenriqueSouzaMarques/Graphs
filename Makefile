@@ -22,5 +22,8 @@ queue.o: src/queue.c Includes/queue.h
 run:
 	./$(BIN)
 
+valgrind:
+	valgrind ./$(BIN)
+
 clean:
 	rm $(BIN)

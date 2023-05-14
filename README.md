@@ -10,5 +10,6 @@ Covered topics so far:
 #### 2. Directed Graphs
 #### 3. Non-Directed Graphs
 #### 4. Weighted Graphs
+#### 5. Fleury's Algorithm: Eulerian Cycles
 #### 5. BFS (Breadth First Search)
 #### 6. DFS (Depth First Search)

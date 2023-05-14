@@ -7,15 +7,18 @@
 
 typedef struct graph graph_t;
 
-graph_t* graphCreate(int numberOfVertex);
+graph_t* graphCreate(int numberOfVertex, BOOL isDirected);
 
-void graphAddEdge(graph_t* graph, int vertexA, int vertexB, int weight, BOOL isDirected);
+void graphAddEdge(graph_t* graph, int vertexA, int vertexB, int weight);
+void graphRemoveEdge(graph_t* graph, int vertexA, int vertexB);
 
-void graphRemoveEdge(graph_t* graph, int vertexA, int vertexB, BOOL isDirected);
+int graphBFS(graph_t* graph, BOOL print);
+int graphDFS(graph_t* graph, BOOL print);
 
-int graphBFS(graph_t* graph);
+BOOL graphNotEulerian(graph_t* graph);
+void graphEulerianCircuit(graph_t* graph, int startVertex);
 
-int graphDFS(graph_t* graph);
+BOOL getIsDirected(graph_t* graph);
 
 void graphDelete(graph_t** graph);
 
