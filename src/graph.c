@@ -281,7 +281,6 @@ BOOL graphNotEulerian(graph_t* graph)
 
 BOOL isBridge(graph_t* graph, int vertexA, int vertexB)
 {
-
     int connectedComponentsBefore = graphBFS(graph, FALSE);
 
     graphRemoveEdge(graph, vertexA, vertexB);
@@ -371,7 +370,6 @@ void bubbleSort(int* vertex, int* degrees, int n)
     }
 }
 
-
 int* orderVertex(graph_t* graph)
 {
     int* vertex = (int*)malloc(graph->numberOfVertex * sizeof(int));
@@ -448,8 +446,14 @@ void printColors(int* colors, int numberOfDifferentColors, int n)
     printf("\n");
 }
 
-void graphColouring(graph_t* graph)
+void graphColoring(graph_t* graph)
 {
+    if(graph->isDirected)
+    {
+        printf("Coloring works only for non-directed graphs!\n\n");
+        return;
+    }
+
     int* vertexOrderedByDegree = orderVertex(graph);
 
     int* colors = (int*)calloc(graph->numberOfVertex, sizeof(int));

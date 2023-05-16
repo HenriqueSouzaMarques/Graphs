@@ -109,9 +109,9 @@ void userGraphFindEulerianCycle(graph_t* graph)
     clear();
 }
 
-void userGraphColouring(graph_t* graph)
+void userGraphColoring(graph_t* graph)
 {
-    graphColouring(graph);
+    graphColoring(graph);
     
     clear();
 }

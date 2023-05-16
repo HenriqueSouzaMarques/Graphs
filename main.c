@@ -12,7 +12,7 @@ void printMenu()
     printf("4. BFS Search \n");
     printf("5. DFS Search \n");
     printf("6. Eulerian Circuit (Fleury's Algorithm) \n");
-    printf("7. Graph Colouring (Welsh Powell's Algorithm) \n");
+    printf("7. Graph Coloring (Welsh Powell's Algorithm) \n");
     printf("0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -58,7 +58,7 @@ int main()
                 break;
 
             case 7:
-                userGraphColouring(graph);
+                userGraphColoring(graph);
                 break;
                 
             case 0:
