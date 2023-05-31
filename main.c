@@ -13,7 +13,7 @@ void printMenu()
     printf("5. DFS Search \n");
     printf("6. Eulerian Circuit (Fleury's Algorithm) \n");
     printf("7. Graph Coloring (Welsh Powell's Algorithm) \n");
-    printf("8. Finding Connected Components \n");
+    printf("8. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
     printf("0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
