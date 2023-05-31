@@ -13,3 +13,4 @@ Covered topics so far:
 #### 5. Fleury's Algorithm: Eulerian Cycles
 #### 5. BFS (Breadth First Search)
 #### 6. DFS (Depth First Search)
+#### 7. Tarjan's Algorithm (Strongly Connected Components in Directed Graphs)
