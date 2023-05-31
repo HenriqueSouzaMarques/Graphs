@@ -17,6 +17,8 @@ void userGraphFindEulerianCycle(graph_t* graph);
 
 void userGraphColoring(graph_t* graph);
 
+void userFindConnectedComponents(graph_t* graph);
+
 void userExitProgram(graph_t** graph);
 
 

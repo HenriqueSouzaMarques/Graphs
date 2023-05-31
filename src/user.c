@@ -73,18 +73,34 @@ void userGraphRemoveEdge(graph_t* graph)
 
 void userGraphBFS(graph_t* graph)
 {
-    int numberOfConnectedComponents = graphBFS(graph, TRUE);
-
-    printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);        
+    graphBFS(graph, TRUE);
 
     clear();
 }
 
 void userGraphDFS(graph_t* graph)
 {
-    int numberOfConnectedComponents = graphDFS(graph, TRUE);
+    graphDFS(graph, TRUE);
 
-    printf("There are %d connected(s) component(s) in this graph!\n", numberOfConnectedComponents);
+    clear();
+}
+
+void userFindConnectedComponents(graph_t* graph)
+{
+    int numberOfConnectedComponents = 0;
+
+    if(getIsDirected(graph))
+    {
+        numberOfConnectedComponents = tarjanAlgorithm(graph);
+
+        printf("There are %d strongly connected components in the graph!\n\n", numberOfConnectedComponents);
+    }
+    else
+    {
+        numberOfConnectedComponents = graphDFS(graph, TRUE);
+
+        printf("There are %d connected components in the graph!\n\n", numberOfConnectedComponents);
+    }
 
     clear();
 }

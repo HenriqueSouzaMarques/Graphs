@@ -5,6 +5,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#include "../Includes/queue.h"
+#include "../Includes/stack.h"
+
 typedef struct graph graph_t;
 
 graph_t* graphCreate(int numberOfVertex, BOOL isDirected);
@@ -19,6 +22,8 @@ BOOL graphNotEulerian(graph_t* graph);
 void graphEulerianCircuit(graph_t* graph, int startVertex);
 
 void graphColoring(graph_t* graph);
+
+int tarjanAlgorithm(graph_t* graph);
 
 BOOL getIsDirected(graph_t* graph);
 

@@ -6,18 +6,18 @@
 typedef int element;
 typedef struct queue queue_t;
 
-queue_t* createQueue();
+queue_t* queueCreate();
 
-void push(queue_t* queue, element x);
+void queuePush(queue_t* queue, element x);
 
-element pop(queue_t* queue);
+element queuePop(queue_t* queue);
 
-bool isEmpty(queue_t* queue);
+bool queueIsEmpty(queue_t* queue);
 
-int getSize(queue_t* queue);
+int queueGetSize(queue_t* queue);
 
-void printQueue(queue_t* queue);
+void queuePrint(queue_t* queue);
 
-void destroyQueue(queue_t** queue);
+void queueDestroy(queue_t** queue);
 
 #endif //QUEUE_H

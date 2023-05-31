@@ -13,6 +13,7 @@ void printMenu()
     printf("5. DFS Search \n");
     printf("6. Eulerian Circuit (Fleury's Algorithm) \n");
     printf("7. Graph Coloring (Welsh Powell's Algorithm) \n");
+    printf("8. Finding Connected Components \n");
     printf("0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -60,7 +61,11 @@ int main()
             case 7:
                 userGraphColoring(graph);
                 break;
-                
+
+            case 8:
+                userFindConnectedComponents(graph);
+                break;
+
             case 0:
                 userExitProgram(&graph);
                 break;

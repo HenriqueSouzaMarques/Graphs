@@ -18,7 +18,7 @@ struct queue
     node_t *start; node_t *end;
 };
 
-queue_t* createQueue()
+queue_t* queueCreate()
 {
     queue_t* list = (queue_t*)malloc(sizeof(queue_t));
     assert(list != NULL);
@@ -29,7 +29,7 @@ queue_t* createQueue()
     return list;
 }
 
-void push(queue_t* list, element x)
+void queuePush(queue_t* list, element x)
 {
     assert(list != NULL);
 
@@ -39,7 +39,7 @@ void push(queue_t* list, element x)
     newNode->value = x;
     newNode->next = NULL;
 
-    if(isEmpty(list))
+    if(queueIsEmpty(list))
     {
         list->start = newNode;
     }
@@ -51,7 +51,7 @@ void push(queue_t* list, element x)
     list->end = newNode;
 }
 
-element pop(queue_t* queue)
+element queuePop(queue_t* queue)
 {
     assert(queue != NULL);
 
@@ -66,7 +66,7 @@ element pop(queue_t* queue)
     return x;
 }
 
-bool isEmpty(queue_t* queue)
+bool queueIsEmpty(queue_t* queue)
 {
     assert(queue != NULL);
 
@@ -78,7 +78,7 @@ bool isEmpty(queue_t* queue)
     return false;
 }
 
-void printQueue(queue_t* queue)
+void queuePrint(queue_t* queue)
 {
     assert(queue != NULL);
 
@@ -92,7 +92,7 @@ void printQueue(queue_t* queue)
     printf("\n");
 }
 
-void destroyQueue(queue_t** queue)
+void queueDestroy(queue_t** queue)
 {
     if(queue == NULL || *queue == NULL) return;
 
@@ -107,7 +107,7 @@ void destroyQueue(queue_t** queue)
     free(*queue);
 }
 
-int getSize(queue_t* queue)
+int queueGetSize(queue_t* queue)
 {
     assert(queue != NULL);
 
