@@ -14,4 +14,4 @@ Covered topics so far:
 #### 5. BFS (Breadth First Search)
 #### 6. DFS (Depth First Search)
 #### 7. Welsh Powell's Algorithm (Graph Coloring)
-#### 7. Tarjan's Algorithm (Strongly Connected Components in Directed Graphs)
+#### 8. Tarjan's Algorithm (Strongly Connected Components in Directed Graphs)
