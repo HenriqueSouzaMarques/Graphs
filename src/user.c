@@ -132,6 +132,22 @@ void userGraphColoring(graph_t* graph)
     clear();
 }
 
+
+void userShortestPath(graph_t* graph)
+{
+    int startVertex, endVertex;
+
+    printf("Insert the starting vertex: ");
+    scanf("%d", &startVertex);   
+
+    printf("Insert the ending vertex: ");
+    scanf("%d", &endVertex);   
+
+    djikistraAlgorithm(graph, startVertex, endVertex);
+
+    clear();
+}
+
 void userExitProgram(graph_t** graph)
 {
     graphDelete(graph);

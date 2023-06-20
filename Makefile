@@ -1,7 +1,7 @@
 CC = gcc
 FLAGS = -g -Wall -Werror
 
-OBJS = main.o user.o graph.o stack.o queue.o
+OBJS = main.o user.o graph.o stack.o queue.o heap.o
 BIN = main
 
 all: $(OBJS)
@@ -21,6 +21,9 @@ queue.o: src/queue.c Includes/queue.h
 
 stack.o: src/stack.c Includes/stack.h
 	$(CC) -c $(FLAGS) src/stack.c
+
+heap.o: src/heap.c Includes/heap.h
+	$(CC) -c $(FLAGS) src/heap.c
 
 run:
 	./$(BIN)

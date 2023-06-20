@@ -14,6 +14,7 @@ void printMenu()
     printf("6. Eulerian Circuit (Fleury's Algorithm) \n");
     printf("7. Graph Coloring (Welsh Powell's Algorithm) \n");
     printf("8. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
+    printf("9. Single Source Shortest Path (Djikistra's Algorithm)\n");
     printf("0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -64,6 +65,10 @@ int main()
 
             case 8:
                 userFindConnectedComponents(graph);
+                break;
+
+            case 9:
+                userShortestPath(graph);
                 break;
 
             case 0:

@@ -185,6 +185,17 @@ void _graphDFS(graph_t* graph, vertexType_t* visiteds, int* discovered, int* pro
     }
 }
 
+int* createPredecessors(graph_t* graph)
+{
+    int* predecessors = (int*)malloc(graph->numberOfVertex * sizeof(int));
+    for(int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        predecessors[i] = -1;
+    }
+
+    return predecessors;
+}
+
 int graphDFS(graph_t* graph, BOOL print)
 {
     vertexType_t* visiteds = (vertexType_t*)calloc(graph->numberOfVertex, sizeof(vertexType_t));
@@ -193,11 +204,7 @@ int graphDFS(graph_t* graph, BOOL print)
 
     int* processed = (int*)calloc(graph->numberOfVertex, sizeof(int));
 
-    int* predecessors = (int*)malloc(graph->numberOfVertex * sizeof(int));
-    for(int i = 0; i < graph->numberOfVertex; ++i)
-    {
-        predecessors[i] = -1;
-    }
+    int* predecessors = createPredecessors(graph);
 
     int numberOfConnectedComponents = 0;
 
@@ -594,6 +601,75 @@ void graphColoring(graph_t* graph)
 
     free(colors);
     free(vertexOrderedByDegree);
+}
+
+void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex)
+{
+    stack_t* stack = stackCreate();
+
+    int distance = 0;
+
+    while (endVertex != -1)
+    {
+        stackPush(stack, endVertex);
+
+        if(predecessors[endVertex] != -1)
+            distance += graph->adjacencyMatriz[predecessors[endVertex]][endVertex];
+
+        endVertex = predecessors[endVertex];
+    }
+    
+    printf("\n\nPath (distance = %d): ", distance);
+
+    while(!stackIsEmpty(stack))
+    {
+        int currentVertex = stackPop(stack);
+
+        printf("%d ", currentVertex);
+    }
+    printf("\n");
+
+    stackDestroy(&stack);
+}
+
+void relax(heap_t* heap, int u, int v, int weight, int* predecessors)
+{
+    if(heap->distances[v] > heap->distances[u] + weight)
+    {
+        heap->distances[v] = heap->distances[u] + weight;
+
+        predecessors[v] = u;
+
+        heapMin(heap, 0);
+    }
+}
+
+void djikistraAlgorithm(graph_t* graph, int startVertex, int endVertex)
+{
+    heap_t* priorityQueue = heapCreate(graph->numberOfVertex, startVertex);
+
+    int* predecessors = createPredecessors(graph);
+
+    int currentVertex = heapPop(priorityQueue);
+
+    while(!heapIsEmpty(priorityQueue))
+    {
+        for(int i = 0; i < graph->numberOfVertex; ++i)
+        {
+            if(graph->adjacencyMatriz[currentVertex][i] != 0 && isInHeap(priorityQueue, i))
+            {
+                relax(priorityQueue, currentVertex, i, graph->adjacencyMatriz[currentVertex][i], predecessors);
+            }
+        }
+
+        currentVertex = heapPop(priorityQueue);
+    }   
+
+    printPath(graph, predecessors, startVertex, endVertex);
+
+    heapDelete(&priorityQueue);
+
+    free(predecessors);
 }
 
 void graphDelete(graph_t** graph)

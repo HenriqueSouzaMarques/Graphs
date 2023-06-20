@@ -1,0 +1,33 @@
+#ifndef HEAP_H
+#define HEAP_H
+
+typedef struct heap heap_t;
+
+#define BOOL char
+#define TRUE 1
+#define FALSE 0
+
+struct heap
+{
+    int* vertex;
+
+    int* distances;
+
+    int heapSize;
+};
+
+heap_t* heapCreate(int numberOfVertex, int startVertex);
+
+void heapMin(heap_t* heap, int parent);
+
+void heapBuild(heap_t* heap);
+
+int heapPop(heap_t* heap);
+
+BOOL heapIsEmpty(heap_t* heap);
+
+BOOL isInHeap(heap_t* heap, int vertex);
+
+void heapDelete(heap_t** heap);
+
+#endif // HEAP_H

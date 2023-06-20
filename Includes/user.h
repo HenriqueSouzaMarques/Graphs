@@ -19,6 +19,8 @@ void userGraphColoring(graph_t* graph);
 
 void userFindConnectedComponents(graph_t* graph);
 
+void userShortestPath(graph_t* graph);
+
 void userExitProgram(graph_t** graph);
 
 

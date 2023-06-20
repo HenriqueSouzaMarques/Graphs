@@ -7,6 +7,7 @@
 
 #include "../Includes/queue.h"
 #include "../Includes/stack.h"
+#include "../Includes/heap.h"
 
 typedef struct graph graph_t;
 
@@ -24,6 +25,8 @@ void graphEulerianCircuit(graph_t* graph, int startVertex);
 void graphColoring(graph_t* graph);
 
 int tarjanAlgorithm(graph_t* graph);
+
+void djikistraAlgorithm(graph_t* graph, int startVertex, int endVertex);
 
 BOOL getIsDirected(graph_t* graph);
 
