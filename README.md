@@ -31,5 +31,3 @@ To use the provided code, follow these steps:
 2. Navigate to the appropriate directory.
 3. Compile the C code running ```make```
 4. Run the compiled executable with ```make run```
-
-Make sure to refer to the documentation and comments within the code for further instructions and details about each algorithm's usage.
