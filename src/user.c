@@ -45,7 +45,7 @@ void userGraphAddEdge(graph_t* graph)
     scanf("%d", &vertexB);
     printf("\n");
 
-    printf("Type the weight of the edge (must be a positive integer): ");
+    printf("Type the weight of the edge (must be different than 0): ");
     scanf("%d", &weight);
     printf("\n");
 
@@ -135,15 +135,21 @@ void userGraphColoring(graph_t* graph)
 
 void userShortestPath(graph_t* graph)
 {
-    int startVertex, endVertex;
+    int startVertex;
 
     printf("Insert the starting vertex: ");
     scanf("%d", &startVertex);   
 
-    printf("Insert the ending vertex: ");
-    scanf("%d", &endVertex);   
-
-    djikistraAlgorithm(graph, startVertex, endVertex);
+    if(graphHasNegativeWeight(graph))
+    {
+        printf("Graph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
+        bellmanFordAlgorithm(graph, startVertex);
+    }
+    else
+    {
+        printf("Graph has only positive weights! Running Djikstra' Algorithm!\n\n");
+        djikistraAlgorithm(graph, startVertex);
+    }
 
     clear();
 }

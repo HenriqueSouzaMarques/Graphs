@@ -26,7 +26,7 @@ void heapBuild(heap_t* heap)
    }
 }
 
-heap_t* heapCreate(int numberOfVertex, int startVertex)
+heap_t* heapCreate(int numberOfVertex, int startVertex, BOOL buidHeap)
 {
     heap_t* heap = (heap_t*)malloc(sizeof(heap_t));
 
@@ -39,12 +39,12 @@ heap_t* heapCreate(int numberOfVertex, int startVertex)
     {
         heap->vertex[i] = i;
 
-        heap->distances[i] = __INT_MAX__;
+        heap->distances[i] = 100000;
     }
 
     heap->distances[startVertex] = 0;
 
-    heapBuild(heap);
+    if(buidHeap) heapBuild(heap);
 
     return heap;
 }
@@ -58,9 +58,19 @@ int heapPop(heap_t* heap)
 
     heap->heapSize--;
 
-    heapMin(heap, 0);
+    //heapMin(heap, 0);
 
     return first;
+}
+
+int heapFind(heap_t* heap, int elem)
+{
+    for(int i = 0; i < heap->heapSize; ++i)
+    {
+        if(heap->vertex[i] == elem) return i;
+    }
+
+    return -1;
 }
 
 

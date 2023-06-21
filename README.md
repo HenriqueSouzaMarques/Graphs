@@ -17,7 +17,7 @@ The repository covers the following topics:
 7. Depth First Search (DFS)
 8. Welsh Powell's Algorithm (Graph Coloring)
 9. Tarjan's Algorithm (Strongly Connected Components in Directed Graphs)
-10. Dijkstra's Algorithm (Single Source Shortest Path)
+10. Dijkstra's and Bellman-Ford's Algorithms (Single Source Shortest Path)
 
 These topics serve as a foundation for understanding and working with graph structures and algorithms.
 

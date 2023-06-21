@@ -19,7 +19,7 @@ struct graph
 
     BOOL isDirected;
 
-    int** adjacencyMatriz; 
+    int** adjacencyMatrix; 
 };
 
 graph_t* graphCreate(int numberOfVertex, BOOL isDirected)
@@ -41,7 +41,7 @@ graph_t* graphCreate(int numberOfVertex, BOOL isDirected)
     graph->numberOfVertex = numberOfVertex;
     graph->isDirected = isDirected;
     graph->numberOfEdges = 0;
-    graph->adjacencyMatriz = matrixCreate(numberOfVertex);
+    graph->adjacencyMatrix = matrixCreate(numberOfVertex);
 
     return graph;
 }
@@ -55,9 +55,9 @@ BOOL getIsDirected(graph_t* graph)
 
 void graphAddEdge(graph_t* graph, int vertexA, int vertexB, int weight)
 {
-    if(weight <= 0)
+    if(weight == 0)
     {
-        printf("Insert a valid weight (positive integer!)\n");
+        printf("Insert a valid weight (it can not be 0!)\n");
         return;
     }
 
@@ -67,11 +67,11 @@ void graphAddEdge(graph_t* graph, int vertexA, int vertexB, int weight)
         return;
     }
     
-    graph->adjacencyMatriz[vertexA][vertexB] = weight;
+    graph->adjacencyMatrix[vertexA][vertexB] = weight;
 
     if(!graph->isDirected)
     {
-        graph->adjacencyMatriz[vertexB][vertexA] = weight; 
+        graph->adjacencyMatrix[vertexB][vertexA] = weight; 
     }
 
     graph->numberOfEdges++;
@@ -85,11 +85,11 @@ void graphRemoveEdge(graph_t* graph, int vertexA, int vertexB)
         return;
     }
 
-    graph->adjacencyMatriz[vertexA][vertexB] =  0;
+    graph->adjacencyMatrix[vertexA][vertexB] =  0;
 
     if(!graph->isDirected)
     {
-        graph->adjacencyMatriz[vertexB][vertexA] = 0;
+        graph->adjacencyMatrix[vertexB][vertexA] = 0;
     }
     
     graph->numberOfEdges--;
@@ -113,11 +113,11 @@ void _graphBFS(graph_t* graph, vertexType_t* visiteds, int initialVertex, BOOL p
 
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
-            if(graph->adjacencyMatriz[currentVertex][i] != 0 && visiteds[i] == WHITE)
+            if(graph->adjacencyMatrix[currentVertex][i] != 0 && visiteds[i] == WHITE)
             {
                 if(print)
                 {
-                    printf("%d(%d) ", i, graph->adjacencyMatriz[currentVertex][i]); 
+                    printf("%d(%d) ", i, graph->adjacencyMatrix[currentVertex][i]); 
                 }
 
                 queuePush(queue, i);
@@ -169,7 +169,7 @@ void _graphDFS(graph_t* graph, vertexType_t* visiteds, int* discovered, int* pro
 
     for(int next = 0; next < graph->numberOfVertex; ++next)
     {
-        if(graph->adjacencyMatriz[actualVertex][next] != 0 && visiteds[next] == WHITE)
+        if(graph->adjacencyMatrix[actualVertex][next] != 0 && visiteds[next] == WHITE)
         {
             predecessors[next] = actualVertex;
             _graphDFS(graph, visiteds, discovered, processed, predecessors, actualTime, next, print);
@@ -253,7 +253,7 @@ int findMinDisc(graph_t* graph, stack_t* stack, int* low, int** treeEdges, int* 
 
     for(int i = 0; i < graph->numberOfVertex; ++i)
     {
-        if(graph->adjacencyMatriz[currentVertex][i] != 0 && treeEdges[currentVertex][i] == 0 && stackIsElem(stack, i))
+        if(graph->adjacencyMatrix[currentVertex][i] != 0 && treeEdges[currentVertex][i] == 0 && stackIsElem(stack, i))
         {
             if(discovered[i] < min)
             {
@@ -295,7 +295,7 @@ void tarjanDFS(graph_t* graph, stack_t* stack, int* low, vertexType_t* visiteds,
 
     for(int next = 0; next < graph->numberOfVertex; ++next)
     {
-        if(graph->adjacencyMatriz[currentVertex][next] != 0)
+        if(graph->adjacencyMatrix[currentVertex][next] != 0)
         {
             if(visiteds[next] == WHITE)
             {
@@ -369,7 +369,7 @@ int vertexDegree(graph_t* graph, int vertex)
 
     for(int i = 0; i < graph->numberOfVertex; ++i)
     {
-        if(graph->adjacencyMatriz[vertex][i] != 0)
+        if(graph->adjacencyMatrix[vertex][i] != 0)
         {
             vertexDegree++;
         }
@@ -384,7 +384,7 @@ void copyAdjancencyMatrix(graph_t* copy, graph_t* source)
     {
         for(int j = 0; j < copy->numberOfVertex; ++j)
         {
-            copy->adjacencyMatriz[i][j] = source->adjacencyMatriz[i][j];
+            copy->adjacencyMatrix[i][j] = source->adjacencyMatrix[i][j];
         }
     }
 }
@@ -444,7 +444,7 @@ void fleuryAlgorithm(graph_t* graph, int currentVertex)
     {
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
-            if(graph->adjacencyMatriz[currentVertex][i] != 0)
+            if(graph->adjacencyMatrix[currentVertex][i] != 0)
             {
                 printf(" -> %d", i);
 
@@ -458,7 +458,7 @@ void fleuryAlgorithm(graph_t* graph, int currentVertex)
     {
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
-            if(graph->adjacencyMatriz[currentVertex][i] != 0 && !isBridge(graph, currentVertex, i))
+            if(graph->adjacencyMatrix[currentVertex][i] != 0 && !isBridge(graph, currentVertex, i))
             {
                 printf(" -> %d", i);
 
@@ -540,7 +540,7 @@ BOOL adjacentsColored(graph_t* graph, int* vertexOrderedByDegree, int* colors, i
 {
     for(int i = 0; i < graph->numberOfVertex; ++i)
     {
-        if(graph->adjacencyMatriz[vertexOrderedByDegree[actualVertex]][i] != 0)
+        if(graph->adjacencyMatrix[vertexOrderedByDegree[actualVertex]][i] != 0)
         {
             if(colors[i] == actualColor) return TRUE;
         }
@@ -605,6 +605,8 @@ void graphColoring(graph_t* graph)
 
 void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex)
 {
+    int end = endVertex;
+
     stack_t* stack = stackCreate();
 
     int distance = 0;
@@ -614,12 +616,12 @@ void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex
         stackPush(stack, endVertex);
 
         if(predecessors[endVertex] != -1)
-            distance += graph->adjacencyMatriz[predecessors[endVertex]][endVertex];
+            distance += graph->adjacencyMatrix[predecessors[endVertex]][endVertex];
 
         endVertex = predecessors[endVertex];
     }
     
-    printf("\n\nPath (distance = %d): ", distance);
+    printf("\n\nPath to %d: ", end);
 
     while(!stackIsEmpty(stack))
     {
@@ -627,56 +629,149 @@ void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex
 
         printf("%d ", currentVertex);
     }
-    printf("\n");
+    printf("(distance = %d)\n", distance);
 
     stackDestroy(&stack);
 }
 
-void relax(heap_t* heap, int u, int v, int weight, int* predecessors)
+BOOL relax(heap_t* heap, int d, int v, int weight, BOOL find)
 {
-    if(heap->distances[v] > heap->distances[u] + weight)
+    int index = v;
+
+    if(find)
     {
-        heap->distances[v] = heap->distances[u] + weight;
-
-        predecessors[v] = u;
-
-        heapMin(heap, 0);
+        index = heapFind(heap, v);
     }
+
+    if(heap->distances[index] > d + weight)
+    {
+        heap->distances[index] = d + weight;
+
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
-void djikistraAlgorithm(graph_t* graph, int startVertex, int endVertex)
+void printAllPaths(graph_t* graph, int* predecessors, int startVertex)
 {
-    heap_t* priorityQueue = heapCreate(graph->numberOfVertex, startVertex);
+    printf("********** Paths **********\n");
+
+    for(int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        if(i != startVertex) printPath(graph, predecessors, startVertex, i);
+    }  
+
+    printf("\n\n");
+}
+
+void djikistraAlgorithm(graph_t* graph, int startVertex)
+{
+    printf("Graph has only positive weights! Running Djikstra!\n\n");
+    heap_t* priorityQueue = heapCreate(graph->numberOfVertex, startVertex, TRUE);
 
     int* predecessors = createPredecessors(graph);
 
-    int currentVertex = heapPop(priorityQueue);
-
     while(!heapIsEmpty(priorityQueue))
     {
+        int d = priorityQueue->distances[0];
+
+        int currentVertex = heapPop(priorityQueue);
+
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
-            if(graph->adjacencyMatriz[currentVertex][i] != 0 && isInHeap(priorityQueue, i))
+            if(graph->adjacencyMatrix[currentVertex][i] != 0 && isInHeap(priorityQueue, i))
             {
-                relax(priorityQueue, currentVertex, i, graph->adjacencyMatriz[currentVertex][i], predecessors);
+                if(relax(priorityQueue, d, i, graph->adjacencyMatrix[currentVertex][i], TRUE))
+                {
+                    predecessors[i] = currentVertex;
+                }
             }
         }
 
-        currentVertex = heapPop(priorityQueue);
+        heapMin(priorityQueue, 0);
     }   
 
-    printPath(graph, predecessors, startVertex, endVertex);
+    printAllPaths(graph, predecessors, startVertex);
 
     heapDelete(&priorityQueue);
 
     free(predecessors);
 }
 
+BOOL graphHasNegativeCycle(graph_t* graph, heap_t* vectors)
+{
+    for(int u = 0; u < graph->numberOfVertex; ++u)
+    {
+        for(int v = 0; v < graph->numberOfVertex; ++v)
+        {
+            if(graph->adjacencyMatrix[u][v] != 0)
+            {
+                if(relax(vectors, vectors->distances[u], v, graph->adjacencyMatrix[u][v], FALSE)) return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+void bellmanFordAlgorithm(graph_t* graph, int startVertex)
+{
+    heap_t* vectors = heapCreate(graph->numberOfVertex, startVertex, FALSE);
+
+    int* predecessors = createPredecessors(graph);
+
+    for(int i = 0; i < graph->numberOfVertex - 1; ++i)
+    {
+        for(int u = 0; u < graph->numberOfVertex; ++u)
+        {
+            for(int v = 0; v < graph->numberOfVertex; ++v)
+            {
+                if(graph->adjacencyMatrix[u][v] != 0)
+                {
+                    if(relax(vectors, vectors->distances[u], v, graph->adjacencyMatrix[u][v], FALSE))
+                    {
+                        predecessors[v] = u;
+                    }
+                }
+            }
+        }
+    }
+
+    if(graphHasNegativeCycle(graph, vectors))
+    {
+        printf("Finding a shortest path is not possible, graph has a negative cycle!\n\n");
+    }
+    else
+    {
+        printAllPaths(graph, predecessors, startVertex);
+    }
+
+
+    heapDelete(&vectors);
+
+    free(predecessors);
+}
+
+
+BOOL graphHasNegativeWeight(graph_t* graph)
+{
+    for(int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        for(int j = 0; j < graph->numberOfVertex; ++j)
+        {
+            if(graph->adjacencyMatrix[i][j] < 0) return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
 void graphDelete(graph_t** graph)
 {
     if(graph == NULL || *graph == NULL) return;
 
-    matrixDelete(&((*graph)->adjacencyMatriz), (*graph)->numberOfVertex);
+    matrixDelete(&((*graph)->adjacencyMatrix), (*graph)->numberOfVertex);
 
     free(*graph);
 

@@ -26,9 +26,12 @@ void graphColoring(graph_t* graph);
 
 int tarjanAlgorithm(graph_t* graph);
 
-void djikistraAlgorithm(graph_t* graph, int startVertex, int endVertex);
+void djikistraAlgorithm(graph_t* graph, int startVertex);
+void bellmanFordAlgorithm(graph_t* graph, int startVertex);
 
 BOOL getIsDirected(graph_t* graph);
+
+BOOL graphHasNegativeWeight(graph_t* graph);
 
 void graphDelete(graph_t** graph);
 
