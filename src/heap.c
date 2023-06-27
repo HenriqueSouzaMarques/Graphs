@@ -39,7 +39,7 @@ heap_t* heapCreate(int numberOfVertex, int startVertex, BOOL buidHeap)
     {
         heap->vertex[i] = i;
 
-        heap->distances[i] = 100000;
+        heap->distances[i] = __INT_MAX__;
     }
 
     heap->distances[startVertex] = 0;

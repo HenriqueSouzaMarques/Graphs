@@ -185,17 +185,6 @@ void _graphDFS(graph_t* graph, vertexType_t* visiteds, int* discovered, int* pro
     }
 }
 
-int* createPredecessors(graph_t* graph)
-{
-    int* predecessors = (int*)malloc(graph->numberOfVertex * sizeof(int));
-    for(int i = 0; i < graph->numberOfVertex; ++i)
-    {
-        predecessors[i] = -1;
-    }
-
-    return predecessors;
-}
-
 int graphDFS(graph_t* graph, BOOL print)
 {
     vertexType_t* visiteds = (vertexType_t*)calloc(graph->numberOfVertex, sizeof(vertexType_t));
@@ -204,7 +193,7 @@ int graphDFS(graph_t* graph, BOOL print)
 
     int* processed = (int*)calloc(graph->numberOfVertex, sizeof(int));
 
-    int* predecessors = createPredecessors(graph);
+    int* predecessors = createPredecessors(graph->numberOfVertex);
 
     int numberOfConnectedComponents = 0;
 
@@ -362,6 +351,7 @@ int tarjanAlgorithm(graph_t* graph)
 
     return numberOfSCC;
 }
+
 
 int vertexDegree(graph_t* graph, int vertex)
 {
@@ -620,16 +610,25 @@ void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex
 
         endVertex = predecessors[endVertex];
     }
+
+    if(distance == 0)
+    {
+        printf("There is no path from %d to %d!\n\n", startVertex, end);
+    }
+    else
+    {
+        printf("From %d to %d: ", startVertex, end);
+    }
     
-    printf("\n\nPath to %d: ", end);
 
     while(!stackIsEmpty(stack))
     {
         int currentVertex = stackPop(stack);
 
-        printf("%d ", currentVertex);
+        if(distance != 0) printf("%d ", currentVertex);
     }
-    printf("(distance = %d)\n", distance);
+
+    if(distance != 0) printf("(distance = %d)\n\n", distance);
 
     stackDestroy(&stack);
 }
@@ -643,6 +642,8 @@ BOOL relax(heap_t* heap, int d, int v, int weight, BOOL find)
         index = heapFind(heap, v);
     }
 
+    if(d == __INT_MAX__) return FALSE;
+
     if(heap->distances[index] > d + weight)
     {
         heap->distances[index] = d + weight;
@@ -655,22 +656,30 @@ BOOL relax(heap_t* heap, int d, int v, int weight, BOOL find)
 
 void printAllPaths(graph_t* graph, int* predecessors, int startVertex)
 {
-    printf("********** Paths **********\n");
+    printf("********** Paths from %d **********\n\n", startVertex);
 
     for(int i = 0; i < graph->numberOfVertex; ++i)
     {
         if(i != startVertex) printPath(graph, predecessors, startVertex, i);
     }  
 
-    printf("\n\n");
+    printf("\n");
 }
 
 void djikistraAlgorithm(graph_t* graph, int startVertex)
 {
-    printf("Graph has only positive weights! Running Djikstra!\n\n");
+    if(vertexIsInvalid(startVertex, graph->numberOfVertex))
+    {
+        printf("Insert a valid start vertex!\n\n");
+        
+        return;
+    }
+
+    printf("Graph has only positive weights! Running Djikstra' Algorithm!\n\n");
+
     heap_t* priorityQueue = heapCreate(graph->numberOfVertex, startVertex, TRUE);
 
-    int* predecessors = createPredecessors(graph);
+    int* predecessors = createPredecessors(graph->numberOfVertex);
 
     while(!heapIsEmpty(priorityQueue))
     {
@@ -715,11 +724,20 @@ BOOL graphHasNegativeCycle(graph_t* graph, heap_t* vectors)
     return FALSE;
 }
 
-void bellmanFordAlgorithm(graph_t* graph, int startVertex)
+BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print)
 {
+    if(vertexIsInvalid(startVertex, graph->numberOfVertex))
+    {
+        printf("Insert a valid start vertex!\n\n");
+
+        return TRUE;
+    }
+
+    printf("Graph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
+
     heap_t* vectors = heapCreate(graph->numberOfVertex, startVertex, FALSE);
 
-    int* predecessors = createPredecessors(graph);
+    int* predecessors = createPredecessors(graph->numberOfVertex);
 
     for(int i = 0; i < graph->numberOfVertex - 1; ++i)
     {
@@ -741,18 +759,59 @@ void bellmanFordAlgorithm(graph_t* graph, int startVertex)
     if(graphHasNegativeCycle(graph, vectors))
     {
         printf("Finding a shortest path is not possible, graph has a negative cycle!\n\n");
+
+        heapDelete(&vectors);
+
+        free(predecessors);
+
+        return TRUE;
     }
-    else
+
+    if(print)
     {
         printAllPaths(graph, predecessors, startVertex);
     }
-
-
+    
     heapDelete(&vectors);
 
     free(predecessors);
+
+    return FALSE;
 }
 
+void floydWarshallAlgorithm(graph_t* graph)
+{
+    int** floydAdjMatrix = createFloydAdjMatrix(graph->adjacencyMatrix, graph->numberOfVertex);
+    int** floydPredMatrix = createFloydPredecessorsMatrix(graph->adjacencyMatrix, graph->numberOfVertex);
+
+    for(int k = 0; k < graph->numberOfVertex; ++k)
+    {
+        for(int u = 0; u < graph->numberOfVertex; ++u)
+        {
+            for(int v = 0; v < graph->numberOfVertex; ++v)
+            {
+                if(floydAdjMatrix[u][k] == __INT_MAX__ || floydAdjMatrix[k][v] == __INT_MAX__) continue;
+
+                if(floydAdjMatrix[u][v] > floydAdjMatrix[u][k] + floydAdjMatrix[k][v])
+                {
+                    floydAdjMatrix[u][v] = floydAdjMatrix[u][k] + floydAdjMatrix[k][v];
+                    floydPredMatrix[u][v] = floydPredMatrix[k][v];
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        printAllPaths(graph, floydPredMatrix[i], i);
+    }
+
+    matrixDelete(&floydAdjMatrix, graph->numberOfVertex);
+
+    matrixDelete(&floydPredMatrix, graph->numberOfVertex);
+
+    return;
+}
 
 BOOL graphHasNegativeWeight(graph_t* graph)
 {

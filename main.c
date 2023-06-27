@@ -6,16 +6,17 @@
 void printMenu()
 {
     printf("   *** Options ***   \n");
-    printf("1. Create Graph \n");
-    printf("2. Add Edge \n");
-    printf("3. Delete Edge \n");
-    printf("4. BFS Search \n");
-    printf("5. DFS Search \n");
-    printf("6. Eulerian Circuit (Fleury's Algorithm) \n");
-    printf("7. Graph Coloring (Welsh Powell's Algorithm) \n");
-    printf("8. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
-    printf("9. Single Source Shortest Path (Djikistra's Algorithm / Bellman-Ford's Algorithm)\n");
-    printf("0. Exit Program \n\n\n");
+    printf(" 1. Create Graph \n");
+    printf(" 2. Add Edge \n");
+    printf(" 3. Delete Edge \n");
+    printf(" 4. BFS Search \n");
+    printf(" 5. DFS Search \n");
+    printf(" 6. Eulerian Circuit (Fleury's Algorithm) \n");
+    printf(" 7. Graph Coloring (Welsh Powell's Algorithm) \n");
+    printf(" 8. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
+    printf(" 9. Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
+    printf("10. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
+    printf(" 0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
 }
@@ -68,7 +69,11 @@ int main()
                 break;
 
             case 9:
-                userShortestPath(graph);
+                userShortestPathSingleSource(graph);
+                break;
+
+            case 10:
+                userShortestPathAllSource(graph);
                 break;
 
             case 0:

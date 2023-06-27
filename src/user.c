@@ -117,7 +117,6 @@ void userGraphFindEulerianCycle(graph_t* graph)
     int startVertex;
 
     printf("Insert the starting vertex: ");
-
     scanf("%d", &startVertex);
 
     graphEulerianCircuit(graph, startVertex);
@@ -133,7 +132,7 @@ void userGraphColoring(graph_t* graph)
 }
 
 
-void userShortestPath(graph_t* graph)
+void userShortestPathSingleSource(graph_t* graph)
 {
     int startVertex;
 
@@ -142,16 +141,22 @@ void userShortestPath(graph_t* graph)
 
     if(graphHasNegativeWeight(graph))
     {
-        printf("Graph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
-        bellmanFordAlgorithm(graph, startVertex);
+        bellmanFordAlgorithm(graph, startVertex, TRUE);
     }
     else
     {
-        printf("Graph has only positive weights! Running Djikstra' Algorithm!\n\n");
         djikistraAlgorithm(graph, startVertex);
     }
 
     clear();
+}
+
+void userShortestPathAllSource(graph_t* graph)
+{
+    if(!bellmanFordAlgorithm(graph, 0, FALSE))
+    {
+        floydWarshallAlgorithm(graph);
+    }
 }
 
 void userExitProgram(graph_t** graph)

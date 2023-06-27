@@ -27,7 +27,8 @@ void graphColoring(graph_t* graph);
 int tarjanAlgorithm(graph_t* graph);
 
 void djikistraAlgorithm(graph_t* graph, int startVertex);
-void bellmanFordAlgorithm(graph_t* graph, int startVertex);
+BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print);
+void floydWarshallAlgorithm(graph_t* graph);
 
 BOOL getIsDirected(graph_t* graph);
 
