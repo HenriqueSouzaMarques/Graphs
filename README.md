@@ -12,7 +12,7 @@ The repository covers the following topics:
 2. Directed Graphs
 3. Non-Directed Graphs
 4. Weighted Graphs
-5. Fleury Algorithm: Eulerian Cycles
+5. Fleury Algorithm (Eulerian Cycles)
 6. Breadth First Search (BFS)
 7. Depth First Search (DFS)
 8. Welsh Powell Algorithm (Graph Coloring)
