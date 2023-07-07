@@ -599,21 +599,21 @@ void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex
 
     stack_t* stack = stackCreate();
 
-    int distance = 0;
+    int cost = 0;
 
     while (endVertex != -1)
     {
         stackPush(stack, endVertex);
 
         if(predecessors[endVertex] != -1)
-            distance += graph->adjacencyMatrix[predecessors[endVertex]][endVertex];
+            cost += graph->adjacencyMatrix[predecessors[endVertex]][endVertex];
 
         endVertex = predecessors[endVertex];
     }
 
-    if(distance == 0)
+    if(cost == 0)
     {
-        printf("There is no path from %d to %d!\n\n", startVertex, end);
+        printf("There is no circuit from %d to %d!\n\n", startVertex, end);
     }
     else
     {
@@ -625,12 +625,95 @@ void printPath(graph_t* graph, int* predecessors, int startVertex, int endVertex
     {
         int currentVertex = stackPop(stack);
 
-        if(distance != 0) printf("%d ", currentVertex);
+        if(cost != 0) printf("%d ", currentVertex);
     }
 
-    if(distance != 0) printf("(distance = %d)\n\n", distance);
+    if(cost != 0) printf("(cost = %d)\n\n", cost);
 
     stackDestroy(&stack);
+}
+
+int _printMST(graph_t* graph, int* parents, int node, int depth)
+{
+    for (int i = 0; i < depth; ++i) printf("  ");
+
+    if (depth > 0) printf("| ");
+
+    printf("Vertex %d\n", node);
+
+    int actualCost = 0;
+    for (int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        if (parents[i] == node)
+        {
+            actualCost += graph->adjacencyMatrix[node][i] + _printMST(graph, parents, i, depth + 1);
+        }
+    }
+
+    return actualCost;
+}
+
+int printMST(graph_t* graph, int* parents)
+{
+    int root = -1;
+
+    printf("Tree:\n");
+
+    for (int i = 0; i < graph->numberOfVertex; ++i)
+    {
+        if (parents[i] == -1)
+        {
+            root = i;
+            break;
+        }
+    }
+
+    if (root != -1)
+    {
+        return _printMST(graph, parents, root, 0);
+    }
+
+    return 0;
+}
+
+void primAlgorithm(graph_t* graph)
+{
+    int* parents = createPredecessors(graph->numberOfVertex);
+
+    heap_t* priorityQueue = heapCreate(graph->numberOfVertex, 0, TRUE);
+
+    while(!heapIsEmpty(priorityQueue))
+    {
+        int currentVertex = heapPop(priorityQueue);
+        heapMin(priorityQueue, 0);
+
+        for(int i = 0; i < graph->numberOfVertex; ++i)
+        {
+            if(graph->adjacencyMatrix[currentVertex][i] != 0)
+            {
+                if(isInHeap(priorityQueue, i))
+                {
+                    int heapPosition = heapFind(priorityQueue, i);
+
+                    if(priorityQueue->queue[heapPosition] > graph->adjacencyMatrix[currentVertex][i])
+                    {
+                        priorityQueue->queue[heapPosition] = graph->adjacencyMatrix[currentVertex][i];
+
+                        parents[i] = currentVertex;
+
+                        heapMin(priorityQueue, 0);
+                    }
+                }
+            }
+        }
+        
+    }
+
+    int totalCost = printMST(graph, parents);
+    printf("\nTotal Cost: %d\n\n", totalCost);
+
+    heapDelete(&priorityQueue);
+    free(parents);
 }
 
 BOOL relax(heap_t* heap, int d, int v, int weight, BOOL find)
@@ -644,9 +727,9 @@ BOOL relax(heap_t* heap, int d, int v, int weight, BOOL find)
 
     if(d == __INT_MAX__) return FALSE;
 
-    if(heap->distances[index] > d + weight)
+    if(heap->queue[index] > d + weight)
     {
-        heap->distances[index] = d + weight;
+        heap->queue[index] = d + weight;
 
         return TRUE;
     }
@@ -683,7 +766,7 @@ void djikistraAlgorithm(graph_t* graph, int startVertex)
 
     while(!heapIsEmpty(priorityQueue))
     {
-        int d = priorityQueue->distances[0];
+        int d = priorityQueue->queue[0];
 
         int currentVertex = heapPop(priorityQueue);
 
@@ -716,7 +799,7 @@ BOOL graphHasNegativeCycle(graph_t* graph, heap_t* vectors)
         {
             if(graph->adjacencyMatrix[u][v] != 0)
             {
-                if(relax(vectors, vectors->distances[u], v, graph->adjacencyMatrix[u][v], FALSE)) return TRUE;
+                if(relax(vectors, vectors->queue[u], v, graph->adjacencyMatrix[u][v], FALSE)) return TRUE;
             }
         }
     }
@@ -747,7 +830,7 @@ BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print)
             {
                 if(graph->adjacencyMatrix[u][v] != 0)
                 {
-                    if(relax(vectors, vectors->distances[u], v, graph->adjacencyMatrix[u][v], FALSE))
+                    if(relax(vectors, vectors->queue[u], v, graph->adjacencyMatrix[u][v], FALSE))
                     {
                         predecessors[v] = u;
                     }

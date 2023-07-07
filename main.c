@@ -14,8 +14,9 @@ void printMenu()
     printf(" 6. Eulerian Circuit (Fleury's Algorithm) \n");
     printf(" 7. Graph Coloring (Welsh Powell's Algorithm) \n");
     printf(" 8. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
-    printf(" 9. Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
-    printf("10. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
+    printf(" 9. Finding Minimum Spanning Tree (MST - Prim's Algorithm) \n");
+    printf("10. Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
+    printf("11. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
     printf(" 0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -24,6 +25,7 @@ void printMenu()
 
 int main()
 {
+    
     int option;
 
     graph_t* graph = NULL;
@@ -67,12 +69,16 @@ int main()
             case 8:
                 userFindConnectedComponents(graph);
                 break;
-
+            
             case 9:
-                userShortestPathSingleSource(graph);
+                userMinimumSpanningTree(graph);
                 break;
 
             case 10:
+                userShortestPathSingleSource(graph);
+                break;
+
+            case 11:
                 userShortestPathAllSource(graph);
                 break;
 

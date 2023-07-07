@@ -11,7 +11,7 @@ struct heap
 {
     int* vertex;
 
-    int* distances;
+    int* queue;
 
     int heapSize;
 };

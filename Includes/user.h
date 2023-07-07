@@ -19,6 +19,8 @@ void userGraphColoring(graph_t* graph);
 
 void userFindConnectedComponents(graph_t* graph);
 
+void userMinimumSpanningTree(graph_t* graph);
+
 void userShortestPathSingleSource(graph_t* graph);
 
 void userShortestPathAllSource(graph_t* graph);

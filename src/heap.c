@@ -16,9 +16,9 @@ void heapBuild(heap_t* heap)
    {                   
         int children = i + 1;
 
-        while(children >= 1 && heap->distances[children / 2] > heap->distances[children]) 
+        while(children >= 1 && heap->queue[children / 2] > heap->queue[children]) 
         { 
-            swapElements(&(heap->distances[children / 2]), &(heap->distances[children])); 
+            swapElements(&(heap->queue[children / 2]), &(heap->queue[children])); 
             swapElements(&(heap->vertex[children / 2]), &(heap->vertex[children]));
 
             children /= 2;                       
@@ -30,7 +30,7 @@ heap_t* heapCreate(int numberOfVertex, int startVertex, BOOL buidHeap)
 {
     heap_t* heap = (heap_t*)malloc(sizeof(heap_t));
 
-    heap->distances = (int*)malloc(numberOfVertex * sizeof(int));
+    heap->queue = (int*)malloc(numberOfVertex * sizeof(int));
     heap->vertex = (int*)malloc(numberOfVertex * sizeof(int));
 
     heap->heapSize = numberOfVertex;
@@ -39,10 +39,10 @@ heap_t* heapCreate(int numberOfVertex, int startVertex, BOOL buidHeap)
     {
         heap->vertex[i] = i;
 
-        heap->distances[i] = __INT_MAX__;
+        heap->queue[i] = __INT_MAX__;
     }
 
-    heap->distances[startVertex] = 0;
+    heap->queue[startVertex] = 0;
 
     if(buidHeap) heapBuild(heap);
 
@@ -53,12 +53,10 @@ int heapPop(heap_t* heap)
 {
     int first = heap->vertex[0];
 
-    swapElements(&(heap->distances[0]), &(heap->distances[heap->heapSize - 1]));
+    swapElements(&(heap->queue[0]), &(heap->queue[heap->heapSize - 1]));
     swapElements(&(heap->vertex[0]), &(heap->vertex[heap->heapSize - 1]));
 
     heap->heapSize--;
-
-    //heapMin(heap, 0);
 
     return first;
 }
@@ -80,14 +78,14 @@ void heapMin(heap_t* heap, int parent)
 
     if(children >= heap->heapSize) return;
 
-    if(children + 1 < heap->heapSize && heap->distances[children + 1] < heap->distances[children])
+    if(children + 1 < heap->heapSize && heap->queue[children + 1] < heap->queue[children])
     {
         children = children + 1;
     }
 
-    if(heap->distances[children] < heap->distances[parent])
+    if(heap->queue[children] < heap->queue[parent])
     {
-        swapElements(&(heap->distances[children]), &(heap->distances[parent]));
+        swapElements(&(heap->queue[children]), &(heap->queue[parent]));
         swapElements(&(heap->vertex[children]), &(heap->vertex[parent]));
 
         heapMin(heap, children);
@@ -111,8 +109,8 @@ BOOL isInHeap(heap_t* heap, int vertex)
 
 void heapDelete(heap_t** heap)
 {
-    free((*heap)->distances);
-    (*heap)->distances = NULL;
+    free((*heap)->queue);
+    (*heap)->queue = NULL;
 
     free((*heap)->vertex);
     (*heap)->vertex = NULL;

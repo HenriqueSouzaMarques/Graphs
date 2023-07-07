@@ -16,9 +16,10 @@ The repository covers the following topics:
 6. Breadth First Search (BFS)
 7. Depth First Search (DFS)
 8. Welsh Powell Algorithm (Graph Coloring)
-9. Tarjan Algorithm (Strongly Connected Components in Directed Graphs)
-10. Dijkstra and Bellman-Ford Algorithms (Single Source Shortest Paths)
-11. Floyd-Warshall Algorithm (All Pairs Shortest Paths)
+9. Prim's Algorithm (Minimum Spanning Trees)
+10. Tarjan Algorithm (Strongly Connected Components in Directed Graphs)
+11. Dijkstra and Bellman-Ford Algorithms (Single Source Shortest Paths)
+12. Floyd-Warshall Algorithm (All Pairs Shortest Paths)
 
 These topics serve as a foundation for understanding and working with graph structures and algorithms.
 

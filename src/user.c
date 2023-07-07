@@ -105,6 +105,24 @@ void userFindConnectedComponents(graph_t* graph)
     clear();
 }
 
+void userMinimumSpanningTree(graph_t* graph)
+{
+    if(getIsDirected(graph))
+    {
+        printf("Prim's Algorithm works just with undirected graphs!\n\n");
+    }
+    else if(graphDFS(graph, FALSE) > 1)
+    {
+        printf("Prim's Algorithm works just with connected graphs!\n\n");
+    }
+    else
+    {
+        primAlgorithm(graph);
+    }
+
+    clear();
+}
+
 void userGraphFindEulerianCycle(graph_t* graph)
 {
     if(getIsDirected(graph) || graphNotEulerian(graph))
