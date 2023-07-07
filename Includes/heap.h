@@ -22,11 +22,9 @@ void heapMin(heap_t* heap, int parent);
 
 int heapPop(heap_t* heap);
 
-int heapFind(heap_t* heap, int elem);
+int heapFind(heap_t* heap, int vertex);
 
 BOOL heapIsEmpty(heap_t* heap);
-
-BOOL isInHeap(heap_t* heap, int vertex);
 
 void heapDelete(heap_t** heap);
 

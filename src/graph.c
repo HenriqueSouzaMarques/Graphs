@@ -689,20 +689,17 @@ void primAlgorithm(graph_t* graph)
 
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
-            if(graph->adjacencyMatrix[currentVertex][i] != 0)
+            int heapPosition = heapFind(priorityQueue, i);
+
+            if(graph->adjacencyMatrix[currentVertex][i] != 0 && heapPosition != -1)
             {
-                if(isInHeap(priorityQueue, i))
+                if(priorityQueue->queue[heapPosition] > graph->adjacencyMatrix[currentVertex][i])
                 {
-                    int heapPosition = heapFind(priorityQueue, i);
+                    priorityQueue->queue[heapPosition] = graph->adjacencyMatrix[currentVertex][i];
 
-                    if(priorityQueue->queue[heapPosition] > graph->adjacencyMatrix[currentVertex][i])
-                    {
-                        priorityQueue->queue[heapPosition] = graph->adjacencyMatrix[currentVertex][i];
+                    parents[i] = currentVertex;
 
-                        parents[i] = currentVertex;
-
-                        heapMin(priorityQueue, 0);
-                    }
+                    heapMin(priorityQueue, 0);
                 }
             }
         }
@@ -716,20 +713,13 @@ void primAlgorithm(graph_t* graph)
     free(parents);
 }
 
-BOOL relax(heap_t* heap, int d, int v, int weight, BOOL find)
+BOOL relax(heap_t* heap, int d, int v, int weight)
 {
-    int index = v;
-
-    if(find)
-    {
-        index = heapFind(heap, v);
-    }
-
     if(d == __INT_MAX__) return FALSE;
 
-    if(heap->queue[index] > d + weight)
+    if(heap->queue[v] > d + weight)
     {
-        heap->queue[index] = d + weight;
+        heap->queue[v] = d + weight;
 
         return TRUE;
     }
@@ -767,14 +757,15 @@ void djikistraAlgorithm(graph_t* graph, int startVertex)
     while(!heapIsEmpty(priorityQueue))
     {
         int d = priorityQueue->queue[0];
-
         int currentVertex = heapPop(priorityQueue);
 
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
-            if(graph->adjacencyMatrix[currentVertex][i] != 0 && isInHeap(priorityQueue, i))
+            int heapPosition = heapFind(priorityQueue, i);
+
+            if(graph->adjacencyMatrix[currentVertex][i] != 0 && heapPosition != -1)
             {
-                if(relax(priorityQueue, d, i, graph->adjacencyMatrix[currentVertex][i], TRUE))
+                if(relax(priorityQueue, d, heapPosition, graph->adjacencyMatrix[currentVertex][i]))
                 {
                     predecessors[i] = currentVertex;
                 }
@@ -799,7 +790,7 @@ BOOL graphHasNegativeCycle(graph_t* graph, heap_t* vectors)
         {
             if(graph->adjacencyMatrix[u][v] != 0)
             {
-                if(relax(vectors, vectors->queue[u], v, graph->adjacencyMatrix[u][v], FALSE)) return TRUE;
+                if(relax(vectors, vectors->queue[u], v, graph->adjacencyMatrix[u][v])) return TRUE;
             }
         }
     }
@@ -816,7 +807,10 @@ BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print)
         return TRUE;
     }
 
-    printf("Graph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
+    if(print)
+    {
+        printf("Graph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
+    }
 
     heap_t* vectors = heapCreate(graph->numberOfVertex, startVertex, FALSE);
 
@@ -830,7 +824,7 @@ BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print)
             {
                 if(graph->adjacencyMatrix[u][v] != 0)
                 {
-                    if(relax(vectors, vectors->queue[u], v, graph->adjacencyMatrix[u][v], FALSE))
+                    if(relax(vectors, vectors->queue[u], v, graph->adjacencyMatrix[u][v]))
                     {
                         predecessors[v] = u;
                     }

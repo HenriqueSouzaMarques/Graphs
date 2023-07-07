@@ -97,16 +97,6 @@ BOOL heapIsEmpty(heap_t* heap)
     return (heap->heapSize == 0);
 }
 
-BOOL isInHeap(heap_t* heap, int vertex)
-{
-    for(int i = 0; i < heap->heapSize; ++i)
-    {
-        if(heap->vertex[i] == vertex) return TRUE;
-    }
-
-    return FALSE;
-}
-
 void heapDelete(heap_t** heap)
 {
     free((*heap)->queue);
