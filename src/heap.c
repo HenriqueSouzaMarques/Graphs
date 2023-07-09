@@ -49,29 +49,6 @@ heap_t* heapCreate(int numberOfVertex, int startVertex, BOOL buidHeap)
     return heap;
 }
 
-int heapPop(heap_t* heap)
-{
-    int first = heap->vertex[0];
-
-    swapElements(&(heap->queue[0]), &(heap->queue[heap->heapSize - 1]));
-    swapElements(&(heap->vertex[0]), &(heap->vertex[heap->heapSize - 1]));
-
-    heap->heapSize--;
-
-    return first;
-}
-
-int heapFind(heap_t* heap, int elem)
-{
-    for(int i = 0; i < heap->heapSize; ++i)
-    {
-        if(heap->vertex[i] == elem) return i;
-    }
-
-    return -1;
-}
-
-
 void heapMin(heap_t* heap, int parent)
 {
     int children = (2 * parent) + 1;
@@ -90,6 +67,30 @@ void heapMin(heap_t* heap, int parent)
 
         heapMin(heap, children);
     }
+}
+
+int heapPop(heap_t* heap)
+{
+    int first = heap->vertex[0];
+
+    swapElements(&(heap->queue[0]), &(heap->queue[heap->heapSize - 1]));
+    swapElements(&(heap->vertex[0]), &(heap->vertex[heap->heapSize - 1]));
+
+    heap->heapSize--;
+
+    heapMin(heap, 0);
+
+    return first;
+}
+
+int heapFind(heap_t* heap, int elem)
+{
+    for(int i = 0; i < heap->heapSize; ++i)
+    {
+        if(heap->vertex[i] == elem) return i;
+    }
+
+    return -1;
 }
 
 BOOL heapIsEmpty(heap_t* heap)

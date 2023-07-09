@@ -18,7 +18,7 @@ struct heap
 
 heap_t* heapCreate(int numberOfVertex, int startVertex, BOOL buildHeap);
 
-void heapMin(heap_t* heap, int parent);
+void heapBuild(heap_t* heap);
 
 int heapPop(heap_t* heap);
 

@@ -685,7 +685,6 @@ void primAlgorithm(graph_t* graph)
     while(!heapIsEmpty(priorityQueue))
     {
         int currentVertex = heapPop(priorityQueue);
-        heapMin(priorityQueue, 0);
 
         for(int i = 0; i < graph->numberOfVertex; ++i)
         {
@@ -698,12 +697,11 @@ void primAlgorithm(graph_t* graph)
                     priorityQueue->queue[heapPosition] = graph->adjacencyMatrix[currentVertex][i];
 
                     parents[i] = currentVertex;
-
-                    heapMin(priorityQueue, 0);
                 }
             }
         }
-        
+
+        heapBuild(priorityQueue);
     }
 
     int totalCost = printMST(graph, parents);
@@ -772,7 +770,7 @@ void djikistraAlgorithm(graph_t* graph, int startVertex)
             }
         }
 
-        heapMin(priorityQueue, 0);
+        heapBuild(priorityQueue);
     }   
 
     printAllPaths(graph, predecessors, startVertex);
