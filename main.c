@@ -6,17 +6,16 @@
 void printMenu()
 {
     printf("   *** Options ***   \n");
-    printf(" 1. Create Graph \n");
-    printf(" 2. Add Edge \n");
-    printf(" 3. Delete Edge \n");
-    printf(" 4. BFS Search \n");
-    printf(" 5. DFS Search \n");
-    printf(" 6. Eulerian Circuit (Fleury's Algorithm) \n");
-    printf(" 7. Graph Coloring (Welsh Powell's Algorithm) \n");
-    printf(" 8. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
-    printf(" 9. Finding Minimum Spanning Tree (MST - Prim's Algorithm) \n");
-    printf("10. Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
-    printf("11. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
+    printf(" 1. Add Edge \n");
+    printf(" 2. Delete Edge \n");
+    printf(" 3. BFS Search \n");
+    printf(" 4. DFS Search \n");
+    printf(" 5. Eulerian Circuit (Fleury's Algorithm) \n");
+    printf(" 6. Graph Coloring (Welsh Powell's Algorithm) \n");
+    printf(" 7. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
+    printf(" 8. Finding Minimum Spanning Tree (MST - Prim's Algorithm) \n");
+    printf(" 9. Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
+    printf("10. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
     printf(" 0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -25,11 +24,9 @@ void printMenu()
 
 int main()
 {
-    
+    graph_t* graph = userCreateGraph();
+
     int option;
-
-    graph_t* graph = NULL;
-
     do
     {
         printMenu();
@@ -37,48 +34,44 @@ int main()
         printf("\n");
 
         switch (option)
-        {
+        {            
             case 1:
-                graph = userCreateGraph();
-                break;
-            
-            case 2:
                 userGraphAddEdge(graph);
                 break;
 
-            case 3:
+            case 2:
                 userGraphRemoveEdge(graph);
                 break;
 
-            case 4:
+            case 3:
                 userGraphBFS(graph);
                 break;
 
-            case 5:
+            case 4:
                 userGraphDFS(graph);
                 break;
 
-            case 6:
+            case 5:
                 userGraphFindEulerianCycle(graph);
                 break;
 
-            case 7:
+            case 6:
                 userGraphColoring(graph);
                 break;
 
-            case 8:
+            case 7:
                 userFindConnectedComponents(graph);
                 break;
             
-            case 9:
+            case 8:
                 userMinimumSpanningTree(graph);
                 break;
 
-            case 10:
+            case 9:
                 userShortestPathSingleSource(graph);
                 break;
 
-            case 11:
+            case 10:
                 userShortestPathAllSource(graph);
                 break;
 
