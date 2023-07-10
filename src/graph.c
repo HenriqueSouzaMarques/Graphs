@@ -741,12 +741,12 @@ void djikistraAlgorithm(graph_t* graph, int startVertex)
 {
     if(vertexIsInvalid(startVertex, graph->numberOfVertex))
     {
-        printf("Insert a valid start vertex!\n\n");
+        printf("\nInsert a valid start vertex!\n\n");
         
         return;
     }
 
-    printf("Graph has only positive weights! Running Djikstra' Algorithm!\n\n");
+    printf("\nGraph has only positive weights! Running Djikstra' Algorithm!\n\n");
 
     heap_t* priorityQueue = heapCreate(graph->numberOfVertex, startVertex, TRUE);
 
@@ -800,14 +800,14 @@ BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print)
 {
     if(vertexIsInvalid(startVertex, graph->numberOfVertex))
     {
-        printf("Insert a valid start vertex!\n\n");
+        printf("\nInsert a valid start vertex!\n\n");
 
         return TRUE;
     }
 
     if(print)
     {
-        printf("Graph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
+        printf("\nGraph has at least one negative weight! Running Bellman-Ford' Algorithm!\n\n");
     }
 
     heap_t* vectors = heapCreate(graph->numberOfVertex, startVertex, FALSE);

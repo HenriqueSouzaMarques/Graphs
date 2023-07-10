@@ -172,6 +172,8 @@ void userShortestPathSingleSource(graph_t* graph)
 void userShortestPathAllSource(graph_t* graph)
 {
     floydWarshallAlgorithm(graph);
+
+    clear();
 }
 
 void userExitProgram(graph_t** graph)
