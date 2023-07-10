@@ -171,10 +171,7 @@ void userShortestPathSingleSource(graph_t* graph)
 
 void userShortestPathAllSource(graph_t* graph)
 {
-    if(!bellmanFordAlgorithm(graph, 0, FALSE))
-    {
-        floydWarshallAlgorithm(graph);
-    }
+    floydWarshallAlgorithm(graph);
 }
 
 void userExitProgram(graph_t** graph)

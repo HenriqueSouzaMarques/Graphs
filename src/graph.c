@@ -854,6 +854,19 @@ BOOL bellmanFordAlgorithm(graph_t* graph, int startVertex, BOOL print)
     return FALSE;
 }
 
+BOOL evaluateDiagonal(int** floydAdjMatrix, int numberOfVertex)
+{
+    for(int i = 0; i < numberOfVertex; ++i)
+    {
+        if(floydAdjMatrix[i][i] != 0)
+        {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
 void floydWarshallAlgorithm(graph_t* graph)
 {
     int** floydAdjMatrix = createFloydAdjMatrix(graph->adjacencyMatrix, graph->numberOfVertex);
@@ -876,10 +889,18 @@ void floydWarshallAlgorithm(graph_t* graph)
         }
     }
 
-    for(int i = 0; i < graph->numberOfVertex; ++i)
+    if(evaluateDiagonal(floydAdjMatrix, graph->numberOfVertex))
     {
-        printAllPaths(graph, floydPredMatrix[i], i);
+        printf("Finding shortest paths is not possible, graph has a negative cycle!\n\n");
     }
+    else
+    {
+        for(int i = 0; i < graph->numberOfVertex; ++i)
+        {
+            printAllPaths(graph, floydPredMatrix[i], i);
+        }
+    }
+
 
     matrixDelete(&floydAdjMatrix, graph->numberOfVertex);
 
