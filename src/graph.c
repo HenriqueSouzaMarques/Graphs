@@ -696,6 +696,8 @@ void primAlgorithm(graph_t* graph)
                 {
                     priorityQueue->queue[heapPosition] = graph->adjacencyMatrix[currentVertex][i];
 
+                    heapDecreaseKey(priorityQueue, heapPosition);
+
                     parents[i] = currentVertex;
                 }
             }
@@ -718,6 +720,8 @@ BOOL relax(heap_t* heap, int d, int v, int weight)
     if(heap->queue[v] > d + weight)
     {
         heap->queue[v] = d + weight;
+
+        heapDecreaseKey(heap, v);
 
         return TRUE;
     }

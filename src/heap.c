@@ -83,6 +83,17 @@ int heapPop(heap_t* heap)
     return first;
 }
 
+void heapDecreaseKey(heap_t* heap, int index)
+{
+    while (index != 0 && heap->queue[(index - 1) / 2] > heap->queue[index])
+    {
+        swap(&(heap->queue[index]), &(heap->queue[(index - 1) / 2]));
+        swap(&(heap->vertex[index]), &(heap->vertex[(index - 1) / 2]));
+
+        index = (index - 1) / 2;
+    }
+}
+
 int heapFind(heap_t* heap, int elem)
 {
     for(int i = 0; i < heap->heapSize; ++i)
