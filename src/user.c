@@ -80,26 +80,51 @@ void userGraphBFS(graph_t* graph)
 
 void userGraphDFS(graph_t* graph)
 {
-    graphDFS(graph, TRUE);
+    graphDFS(graph, TRUE, FALSE);
+
+    clear();
+}
+
+void userTopologicalSorting(graph_t* graph)
+{
+    if(!getIsDirected(graph))
+    {
+        printf("Topological Sorting works just with directed graphs!\n\n");
+
+        clear();
+
+        return;
+    }    
+
+    queue_t* topOrder = graphDFS(graph, FALSE, TRUE);
+
+    if(topOrder == NULL)
+    {
+        printf("Your graph has a cycle. Topological Sorting works just with acyclic graphs!\n\n");
+    }
+    else
+    {
+        printf("\nTopological Sorting is: ");
+        queuePrint(topOrder);
+        printf("\n");
+
+        queueDestroy(&topOrder);
+    }
 
     clear();
 }
 
 void userFindConnectedComponents(graph_t* graph)
 {
-    int numberOfConnectedComponents = 0;
+    int numberOfConnectedComponents = tarjanAlgorithm(graph);;
 
     if(getIsDirected(graph))
     {
-        numberOfConnectedComponents = tarjanAlgorithm(graph);
-
-        printf("There are %d strongly connected components in the graph!\n\n", numberOfConnectedComponents);
+        printf("\nThere are %d strongly connected components in the graph!\n\n", numberOfConnectedComponents);
     }
     else
     {
-        numberOfConnectedComponents = graphDFS(graph, TRUE);
-
-        printf("There are %d connected components in the graph!\n\n", numberOfConnectedComponents);
+        printf("\nThere are %d connected components in the graph!\n\n", numberOfConnectedComponents);
     }
 
     clear();
@@ -111,7 +136,7 @@ void userMinimumSpanningTree(graph_t* graph)
     {
         printf("Prim's Algorithm works just with undirected graphs!\n\n");
     }
-    else if(graphDFS(graph, FALSE) > 1)
+    else if(graphBFS(graph, FALSE) > 1)
     {
         printf("Prim's Algorithm works just with connected graphs!\n\n");
     }
@@ -128,6 +153,8 @@ void userGraphFindEulerianCycle(graph_t* graph)
     if(getIsDirected(graph) || graphNotEulerian(graph))
     {
         printf("Your graph is not eulerian!\n");
+
+        clear();
 
         return;
     }

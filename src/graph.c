@@ -57,13 +57,13 @@ void graphAddEdge(graph_t* graph, int vertexA, int vertexB, int weight)
 {
     if(weight == 0)
     {
-        printf("Insert a valid weight (it can not be 0!)\n");
+        printf("Insert a valid weight (it can not be 0!)\n\n");
         return;
     }
 
     if(vertexIsInvalid(vertexA, graph->numberOfVertex) || vertexIsInvalid(vertexB, graph->numberOfVertex))
     {
-        printf("Insert a valid edge!\n");
+        printf("Insert a valid edge!\n\n");
         return;
     }
     
@@ -81,7 +81,7 @@ void graphRemoveEdge(graph_t* graph, int vertexA, int vertexB)
 {
     if(vertexIsInvalid(vertexA, graph->numberOfVertex) || vertexIsInvalid(vertexB, graph->numberOfVertex))
     {
-        printf("Insert a valid edge!\n");
+        printf("Insert a valid edge!\n\n");
         return;
     }
 
@@ -99,7 +99,7 @@ void graphRemoveEdge(graph_t* graph, int vertexA, int vertexB)
 void _graphBFS(graph_t* graph, vertexType_t* visiteds, int initialVertex, BOOL print)
 {
     queue_t* queue = queueCreate();
-    queuePush(queue, initialVertex);
+    queuePush(queue, initialVertex, FALSE);
     visiteds[initialVertex] = GRAY;
 
     while(!queueIsEmpty(queue))
@@ -120,7 +120,7 @@ void _graphBFS(graph_t* graph, vertexType_t* visiteds, int initialVertex, BOOL p
                     printf("%d(%d) ", i, graph->adjacencyMatrix[currentVertex][i]); 
                 }
 
-                queuePush(queue, i);
+                queuePush(queue, i, FALSE);
                 visiteds[i] = GRAY;
             }
         }
@@ -162,19 +162,46 @@ int graphBFS(graph_t* graph, BOOL print)
     return numberOfConnectedComponents;
 }
 
-void _graphDFS(graph_t* graph, vertexType_t* visiteds, int* discovered, int* processed, int* predecessors, int* actualTime, int actualVertex, BOOL print)
+void _graphDFS(graph_t* graph, 
+               vertexType_t* visiteds, 
+               queue_t* topOrder, 
+               int* discovered, 
+               int* processed, 
+               int* predecessors, 
+               int* actualTime, 
+               int actualVertex, 
+               BOOL print,
+               BOOL* hasCycle)
 {
     visiteds[actualVertex] = GRAY;
     discovered[actualVertex] = ++(*actualTime);
 
     for(int next = 0; next < graph->numberOfVertex; ++next)
     {
-        if(graph->adjacencyMatrix[actualVertex][next] != 0 && visiteds[next] == WHITE)
+        if(graph->adjacencyMatrix[actualVertex][next] != 0)
         {
-            predecessors[next] = actualVertex;
-            _graphDFS(graph, visiteds, discovered, processed, predecessors, actualTime, next, print);
+            if(visiteds[next] == WHITE)
+            {
+                predecessors[next] = actualVertex;
+                _graphDFS(graph, 
+                        visiteds, 
+                        topOrder, 
+                        discovered,
+                        processed, 
+                        predecessors, 
+                        actualTime, 
+                        next, 
+                        print, 
+                        hasCycle);
+            }
+            else if(visiteds[next] == GRAY)
+            {
+                *hasCycle = TRUE;
+            }
         }
     }
+
+    queuePush(topOrder, actualVertex, TRUE);
 
     visiteds[actualVertex] = BLACK;
     processed[actualVertex] = ++(*actualTime);
@@ -185,7 +212,7 @@ void _graphDFS(graph_t* graph, vertexType_t* visiteds, int* discovered, int* pro
     }
 }
 
-int graphDFS(graph_t* graph, BOOL print)
+queue_t* graphDFS(graph_t* graph, BOOL print, BOOL topologicalOrdering)
 {
     vertexType_t* visiteds = (vertexType_t*)calloc(graph->numberOfVertex, sizeof(vertexType_t));
 
@@ -195,16 +222,26 @@ int graphDFS(graph_t* graph, BOOL print)
 
     int* predecessors = createPredecessors(graph->numberOfVertex);
 
-    int numberOfConnectedComponents = 0;
+    queue_t* topOrder = queueCreate();
 
     int actualTime = 0;
+
+    BOOL hasCycle = FALSE;
 
     for(int i = 0; i < graph->numberOfVertex; ++i)
     {
         if(visiteds[i] == WHITE)
         {
-            numberOfConnectedComponents++;
-            _graphDFS(graph, visiteds, discovered, processed, predecessors, &actualTime, i, print);
+            _graphDFS(graph, 
+                      visiteds, 
+                      topOrder, 
+                      discovered, 
+                      processed, 
+                      predecessors, 
+                      &actualTime, 
+                      i, 
+                      print,
+                      &hasCycle);
         }
     }
 
@@ -212,13 +249,19 @@ int graphDFS(graph_t* graph, BOOL print)
     {
         printf("\n");
     }
+
+    if(!topologicalOrdering || (topologicalOrdering && hasCycle))
+    {
+        queueDestroy(&topOrder);
+        topOrder = NULL;
+    }
     
     free(visiteds);
     free(discovered);
     free(processed);
     free(predecessors);
 
-    return numberOfConnectedComponents;
+    return topOrder;
 }
 
 int findMinLow(graph_t* graph, int* low, int** treeEdges, int currentVertex)
@@ -274,7 +317,15 @@ void updateLow(graph_t* graph, stack_t* stack, int* low, int** treeEdges, int* d
     }
 }
 
-void tarjanDFS(graph_t* graph, stack_t* stack, int* low, vertexType_t* visiteds, int** treeEdges, int* discovered, int currentVertex, int* numberOfSCC, int* actualTime)
+void tarjanDFS(graph_t* graph, 
+               stack_t* stack, 
+               int* low, 
+               vertexType_t* visiteds, 
+               int** treeEdges, 
+               int* discovered, 
+               int currentVertex, 
+               int* numberOfSCC, 
+               int* actualTime)
 {
     stackPush(stack, currentVertex);
 
@@ -290,7 +341,15 @@ void tarjanDFS(graph_t* graph, stack_t* stack, int* low, vertexType_t* visiteds,
             {
                 treeEdges[currentVertex][next] = 1;
 
-                tarjanDFS(graph, stack, low, visiteds, treeEdges, discovered, next, numberOfSCC, actualTime);
+                tarjanDFS(graph, 
+                          stack, 
+                          low, 
+                          visiteds, 
+                          treeEdges, 
+                          discovered, 
+                          next, 
+                          numberOfSCC,
+                          actualTime);
             }
         }
     }
@@ -702,8 +761,6 @@ void primAlgorithm(graph_t* graph)
                 }
             }
         }
-
-        heapBuild(priorityQueue);
     }
 
     int totalCost = printMST(graph, parents);
@@ -773,8 +830,6 @@ void djikistraAlgorithm(graph_t* graph, int startVertex)
                 }
             }
         }
-
-        heapBuild(priorityQueue);
     }   
 
     printAllPaths(graph, predecessors, startVertex);

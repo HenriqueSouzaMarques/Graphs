@@ -87,8 +87,8 @@ void heapDecreaseKey(heap_t* heap, int index)
 {
     while (index != 0 && heap->queue[(index - 1) / 2] > heap->queue[index])
     {
-        swap(&(heap->queue[index]), &(heap->queue[(index - 1) / 2]));
-        swap(&(heap->vertex[index]), &(heap->vertex[(index - 1) / 2]));
+        swapElements(&(heap->queue[index]), &(heap->queue[(index - 1) / 2]));
+        swapElements(&(heap->vertex[index]), &(heap->vertex[(index - 1) / 2]));
 
         index = (index - 1) / 2;
     }

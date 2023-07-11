@@ -13,6 +13,8 @@ void userGraphBFS(graph_t* graph);
 
 void userGraphDFS(graph_t* graph);
 
+void userTopologicalSorting(graph_t* graph);
+
 void userGraphFindEulerianCycle(graph_t* graph);
 
 void userGraphColoring(graph_t* graph);

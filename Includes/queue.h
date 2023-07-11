@@ -1,18 +1,20 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <stdbool.h>
+#define BOOL char
+#define TRUE 1
+#define FALSE 0
 
 typedef int element;
 typedef struct queue queue_t;
 
 queue_t* queueCreate();
 
-void queuePush(queue_t* queue, element x);
+void queuePush(queue_t* queue, element x, BOOL pushBeginning);
 
 element queuePop(queue_t* queue);
 
-bool queueIsEmpty(queue_t* queue);
+BOOL queueIsEmpty(queue_t* queue);
 
 int queueGetSize(queue_t* queue);
 

@@ -10,12 +10,13 @@ void printMenu()
     printf(" 2. Delete Edge \n");
     printf(" 3. BFS Search \n");
     printf(" 4. DFS Search \n");
-    printf(" 5. Eulerian Circuit (Fleury's Algorithm) \n");
-    printf(" 6. Graph Coloring (Welsh Powell's Algorithm) \n");
-    printf(" 7. Finding Strongly Connected Components (Tarjan's Algorithm) \n");
-    printf(" 8. Finding Minimum Spanning Tree (MST - Prim's Algorithm) \n");
-    printf(" 9. Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
-    printf("10. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
+    printf(" 5. Topological Sorting \n");
+    printf(" 6. Eulerian Circuit (Fleury's Algorithm) \n");
+    printf(" 7. Graph Coloring (Welsh Powell's Algorithm) \n");
+    printf(" 8. Finding Connected Components (Tarjan's Algorithm) \n");
+    printf(" 9. Finding Minimum Spanning Tree (MST - Prim's Algorithm) \n");
+    printf("10 . Single Source Shortest Paths (Djikistra Algorithm / Bellman-Ford Algorithm)\n");
+    printf("11. All Pairs Shortest Paths (Floyd-Warshall Algorithm)\n");
     printf(" 0. Exit Program \n\n\n");
 
     printf("Choose one of the options above: ");
@@ -52,26 +53,30 @@ int main()
                 break;
 
             case 5:
-                userGraphFindEulerianCycle(graph);
+                userTopologicalSorting(graph);
                 break;
 
             case 6:
-                userGraphColoring(graph);
+                userGraphFindEulerianCycle(graph);
                 break;
 
             case 7:
+                userGraphColoring(graph);
+                break;
+
+            case 8:
                 userFindConnectedComponents(graph);
                 break;
             
-            case 8:
+            case 9:
                 userMinimumSpanningTree(graph);
                 break;
 
-            case 9:
+            case 10:
                 userShortestPathSingleSource(graph);
                 break;
 
-            case 10:
+            case 11:
                 userShortestPathAllSource(graph);
                 break;
 

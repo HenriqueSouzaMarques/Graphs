@@ -29,9 +29,9 @@ queue_t* queueCreate()
     return list;
 }
 
-void queuePush(queue_t* list, element x)
+void queuePush(queue_t* queue, element x, BOOL pushBeginning)
 {
-    assert(list != NULL);
+    assert(queue != NULL);
 
     node_t *newNode = (node_t*)malloc(sizeof(node_t));
     assert(newNode != NULL);
@@ -39,16 +39,24 @@ void queuePush(queue_t* list, element x)
     newNode->value = x;
     newNode->next = NULL;
 
-    if(queueIsEmpty(list))
+    if(queueIsEmpty(queue))
     {
-        list->start = newNode;
+        queue->start = newNode;
+        queue->end = newNode;
     }
     else
     {
-        list->end->next = newNode;
+        if(pushBeginning)
+        {
+            newNode->next = queue->start;
+            queue->start = newNode;
+        }
+        else
+        {
+            queue->end->next = newNode;
+            queue->end = newNode;
+        }    
     }
-
-    list->end = newNode;
 }
 
 element queuePop(queue_t* queue)
@@ -66,16 +74,16 @@ element queuePop(queue_t* queue)
     return x;
 }
 
-bool queueIsEmpty(queue_t* queue)
+BOOL queueIsEmpty(queue_t* queue)
 {
     assert(queue != NULL);
 
     if(queue->start == NULL)
     {
-        return true;
+        return TRUE;
     }
 
-    return false;
+    return FALSE;
 }
 
 void queuePrint(queue_t* queue)

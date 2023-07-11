@@ -19,7 +19,7 @@ void graphDelete(graph_t** graph);
 
 /* Graph traversing algorithm's */
 int graphBFS(graph_t* graph, BOOL print);
-int graphDFS(graph_t* graph, BOOL print);
+queue_t* graphDFS(graph_t* graph, BOOL print, BOOL topologicalOrdering);
 
 /* Eulerian Cycles in graphs */
 BOOL graphNotEulerian(graph_t* graph);

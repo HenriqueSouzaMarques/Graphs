@@ -12,14 +12,15 @@ The repository covers the following topics:
 2. Directed Graphs
 3. Non-Directed Graphs
 4. Weighted Graphs
-5. Fleury Algorithm (Eulerian Cycles)
-6. Breadth First Search (BFS)
-7. Depth First Search (DFS)
-8. Welsh Powell Algorithm (Graph Coloring)
-9. Prim's Algorithm (Minimum Spanning Trees)
-10. Tarjan Algorithm (Strongly Connected Components in Directed Graphs)
-11. Dijkstra and Bellman-Ford Algorithms (Single Source Shortest Paths)
-12. Floyd-Warshall Algorithm (All Pairs Shortest Paths)
+5. Breadth First Search (BFS)
+6. Depth First Search (DFS)
+7. Topological Sorting
+8. Fleury Algorithm (Eulerian Cycles)
+9. Welsh Powell Algorithm (Graph Coloring)
+10. Prim's Algorithm (Minimum Spanning Trees)
+11. Tarjan Algorithm (Strongly Connected Components in Directed Graphs)
+12. Dijkstra and Bellman-Ford Algorithms (Single Source Shortest Paths)
+13. Floyd-Warshall Algorithm (All Pairs Shortest Paths)
 
 These topics serve as a foundation for understanding and working with graph structures and algorithms.
 
