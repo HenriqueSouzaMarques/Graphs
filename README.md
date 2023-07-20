@@ -18,7 +18,7 @@ The repository covers the following topics:
 8. Fleury Algorithm (Eulerian Cycles)
 9. Welsh Powell Algorithm (Graph Coloring)
 10. Prim's Algorithm (Minimum Spanning Trees)
-11. Tarjan Algorithm (Strongly Connected Components in Directed Graphs)
+11. Tarjan Algorithm (Connected/Strongly Connected Components in Non-Directed/Directed Graphs)
 12. Dijkstra and Bellman-Ford Algorithms (Single Source Shortest Paths)
 13. Floyd-Warshall Algorithm (All Pairs Shortest Paths)
 
